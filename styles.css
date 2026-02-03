@@ -39,6 +39,7 @@
 html,body{height:100%}
 body{
   margin:0;
+  /* JetBrains Mono applied globally */
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
   background: linear-gradient(135deg, #e6eefc 0%, #f8fafc 100%);
   display:flex;
