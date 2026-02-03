@@ -4,10 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Simple Calculator</title>
+
+  <!-- JetBrains Mono from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="calculator" aria-label="Simple calculator">
+    <div class="calc-header">
+      <div class="calc-title">Calculator</div>
+      <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle dark mode">🌙</button>
+    </div>
+
     <div class="display" id="display" aria-live="polite">0</div>
 
     <div class="buttons">
