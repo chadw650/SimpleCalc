@@ -1,4 +1,4 @@
-// Simple calculator logic
+// Simple calculator logic and theme toggle
 (function () {
   const displayEl = document.getElementById('display');
   let buffer = ''; // expression buffer
@@ -118,6 +118,45 @@
     }
   });
 
-  // Initialize
+  // Initialize calculator display
   clearAll();
+
+  /* -----------------------
+     Theme toggle / persistence
+     ----------------------- */
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const THEME_KEY = 'calculator-theme'; // 'light' or 'dark'
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggleBtn.textContent = '☀️';
+      themeToggleBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      themeToggleBtn.textContent = '🌙';
+      themeToggleBtn.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  function getPreferredTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+    // If no stored preference, respect system preference
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  }
+
+  // Initialize theme on load
+  const initialTheme = getPreferredTheme();
+  applyTheme(initialTheme);
+
+  // Toggle handler
+  themeToggleBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(THEME_KEY, next);
+  });
+
 })();
