@@ -146,6 +146,40 @@ body{
 }
 .btn.wide{ grid-column: span 2; }
 
+/* Button press animation (played via adding .btn-animate) */
+@keyframes btn-press {
+  0%   { transform: scale(1); box-shadow: var(--btn-shadow); }
+  50%  { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+  100% { transform: scale(1); box-shadow: var(--btn-shadow); }
+}
+.btn-animate{
+  animation: btn-press 160ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* Display "pop" animation */
+@keyframes display-pop {
+  0%   { transform: translateY(6px) scale(0.98); opacity: 0; }
+  60%  { transform: translateY(0) scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.display-pop{
+  animation: display-pop 300ms cubic-bezier(.2,.8,.2,1);
+  /* keep transform origin right so numbers pop from right */
+  transform-origin: 100% 50%;
+}
+
+/* Respect user reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .btn-animate,
+  .display-pop,
+  .calculator,
+  body,
+  .display {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 @media (max-width:360px){
   .display{ font-size:1.6rem; height:72px; padding:12px}
   .btn{ padding:12px; font-size:1rem }
