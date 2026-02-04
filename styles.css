@@ -54,7 +54,7 @@ body{
 }
 
 .calculator{
-  width:320px;
+  width:360px;
   max-width:100%;
   background:var(--calc-bg);
   border-radius:16px;
@@ -92,6 +92,23 @@ body{
   transition: transform .08s ease, background .08s ease;
 }
 .theme-toggle:active{ transform: translateY(1px) }
+
+/* Memory + function row */
+.funcs{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.mem-group, .ops-group{
+  display:flex;
+  gap:8px;
+}
+.btn.small{
+  padding:8px 10px;
+  font-size:0.85rem;
+  border-radius:8px;
+}
 
 /* Display */
 .display{
@@ -164,7 +181,6 @@ body{
 }
 .display-pop{
   animation: display-pop 300ms cubic-bezier(.2,.8,.2,1);
-  /* keep transform origin right so numbers pop from right */
   transform-origin: 100% 50%;
 }
 
@@ -180,7 +196,9 @@ body{
   }
 }
 
-@media (max-width:360px){
+@media (max-width:420px){
+  .calculator{ width:300px; }
   .display{ font-size:1.6rem; height:72px; padding:12px}
   .btn{ padding:12px; font-size:1rem }
+  .btn.small{ padding:8px 8px; font-size:0.85rem; }
 }
