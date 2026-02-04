@@ -19,12 +19,29 @@
       <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle dark mode">🌙</button>
     </div>
 
+    <!-- Memory + Function row -->
+    <div class="funcs">
+      <div class="mem-group" aria-hidden="false">
+        <button class="btn small mem" data-action="mem-clear" title="MC">MC</button>
+        <button class="btn small mem" data-action="mem-recall" title="MR">MR</button>
+        <button class="btn small mem" data-action="mem-add" title="M+">M+</button>
+        <button class="btn small mem" data-action="mem-sub" title="M-">M-</button>
+      </div>
+
+      <div class="ops-group" aria-hidden="false">
+        <button class="btn small fn" data-func="sqrt" title="Square root">√</button>
+        <button class="btn small fn" data-func="square" title="Square">x²</button>
+        <button class="btn small fn" data-func="reciprocal" title="Reciprocal">1/x</button>
+        <button class="btn small fn" data-func="negate" title="Negate">±</button>
+      </div>
+    </div>
+
     <div class="display" id="display" aria-live="polite">0</div>
 
     <div class="buttons">
       <button class="btn wide" data-action="clear">C</button>
       <button class="btn" data-action="delete">⌫</button>
-      <button class="btn" data-value="%">%</button>
+      <button class="btn" data-value="%" title="Percent">%</button>
       <button class="btn op" data-value="/">÷</button>
 
       <button class="btn" data-value="7">7</button>
