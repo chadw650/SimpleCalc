@@ -1,12 +1,21 @@
-// Simple calculator logic and theme toggle
+// Simple calculator logic, animations and theme toggle
 (function () {
   // Run after DOM is ready so elements always exist
   document.addEventListener('DOMContentLoaded', () => {
     const displayEl = document.getElementById('display');
     let buffer = ''; // expression buffer
+    let prevDisplayText = displayEl.textContent || '';
 
     function updateDisplay() {
-      displayEl.textContent = buffer === '' ? '0' : buffer;
+      const newText = buffer === '' ? '0' : buffer;
+      const oldText = prevDisplayText;
+      displayEl.textContent = newText;
+      prevDisplayText = newText;
+
+      // Animate display when a numeric value (contains digits) appears and text changed
+      if (/\d/.test(newText) && newText !== oldText && !prefersReducedMotion()) {
+        triggerDisplayPop();
+      }
     }
 
     function append(char) {
@@ -59,9 +68,51 @@
       updateDisplay();
     }
 
+    // Animation helpers
+    function prefersReducedMotion() {
+      try {
+        return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function triggerButtonAnimation(btn) {
+      if (!btn || prefersReducedMotion()) return;
+      // add class and remove after animationend (or fallback)
+      btn.classList.add('btn-animate');
+      const cleanup = () => {
+        btn.classList.remove('btn-animate');
+        btn.removeEventListener('animationend', cleanup);
+      };
+      btn.addEventListener('animationend', cleanup);
+      // Fallback removal after 250ms
+      setTimeout(() => btn.classList.remove('btn-animate'), 300);
+    }
+
+    function triggerDisplayPop() {
+      if (prefersReducedMotion()) return;
+      displayEl.classList.remove('display-pop');
+      // Force reflow to replay animation
+      // eslint-disable-next-line no-unused-expressions
+      displayEl.offsetWidth;
+      displayEl.classList.add('display-pop');
+
+      const cleanup = () => {
+        displayEl.classList.remove('display-pop');
+        displayEl.removeEventListener('animationend', cleanup);
+      };
+      displayEl.addEventListener('animationend', cleanup);
+      // Fallback removal after 400ms
+      setTimeout(() => displayEl.classList.remove('display-pop'), 450);
+    }
+
     // Button clicks (only .btn elements)
     document.querySelectorAll('.btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        // animate the clicked button
+        triggerButtonAnimation(btn);
+
         const val = btn.getAttribute('data-value');
         const action = btn.getAttribute('data-action');
 
@@ -83,8 +134,23 @@
       });
     });
 
-    // Keyboard support
+    // Keyboard support (also animate matching button)
     window.addEventListener('keydown', (e) => {
+      // Try to find matching button so keyboard presses animate too
+      const allButtons = Array.from(document.querySelectorAll('.btn'));
+      const matchByValue = allButtons.find(b => b.getAttribute('data-value') === e.key);
+      let matchByAction = null;
+      if (e.key === 'Enter' || e.key === '=') {
+        matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'equals');
+      } else if (e.key === 'Backspace') {
+        matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'delete');
+      } else if (e.key === 'Escape') {
+        matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'clear');
+      }
+
+      const btnToAnimate = matchByValue || matchByAction;
+      if (btnToAnimate) triggerButtonAnimation(btnToAnimate);
+
       // Allow digits, operators, parentheses, decimal point
       if ((e.key >= '0' && e.key <= '9') || '+-*/().%'.includes(e.key)) {
         e.preventDefault();
@@ -173,8 +239,6 @@
         }
       });
     } else {
-      // If the button cannot be found, log - this avoids runtime errors
-      // (This shouldn't happen with the provided HTML, but it's defensive.)
       // eslint-disable-next-line no-console
       console.warn('Theme toggle button not found: #theme-toggle');
     }
