@@ -19,7 +19,9 @@
       <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle dark mode">🌙</button>
     </div>
 
-    <!-- Memory + Function row -->
+    <div class="display" id="display" aria-live="polite">0</div>
+
+    <!-- Memory + Function row moved BELOW the display -->
     <div class="funcs">
       <div class="mem-group" aria-hidden="false">
         <button class="btn small mem" data-action="mem-clear" title="MC">MC</button>
@@ -35,8 +37,6 @@
         <button class="btn small fn" data-func="negate" title="Negate">±</button>
       </div>
     </div>
-
-    <div class="display" id="display" aria-live="polite">0</div>
 
     <div class="buttons">
       <button class="btn wide" data-action="clear">C</button>
