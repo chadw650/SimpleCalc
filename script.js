@@ -25,7 +25,7 @@
     function preprocessExpression(expr) {
       if (!expr) return '';
       return expr
-        .replace(/��/g, '*')
+        .replace(/×/g, '*')
         .replace(/÷/g, '/')
         .replace(/\^/g, '**')
         .replace(/%/g, '/100');
@@ -264,10 +264,6 @@
       if (e.key === 'Enter' || e.key === '=') matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'equals');
       else if (e.key === 'Backspace') matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'delete');
       else if (e.key === 'Escape') matchByAction = allButtons.find(b => b.getAttribute('data-action') === 'clear');
-      else if (e.key === '^') {
-        // add caret support -- insert ^ which will be preprocessed to **
-        // try to animate a close visual button (none exists) — skip
-      }
 
       const btnToAnimate = matchByValue || matchByAction;
       if (btnToAnimate) triggerButtonAnimation(btnToAnimate);
@@ -275,7 +271,6 @@
       // Actual input handling
       if ((e.key >= '0' && e.key <= '9') || '+-*/().%'.includes(e.key) || e.key === '^') {
         e.preventDefault();
-        // Insert ^ as caret (will be preprocessed into **)
         append(e.key);
         return;
       }
