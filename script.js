@@ -79,15 +79,26 @@
 
     function triggerButtonAnimation(btn) {
       if (!btn || prefersReducedMotion()) return;
-      // add class and remove after animationend (or fallback)
+
+      // Restart animation reliably:
+      // 1) remove class if present
+      // 2) force reflow
+      // 3) add class to trigger animation
+      btn.classList.remove('btn-animate');
+      // force reflow to allow re-adding the class to retrigger animation
+      // eslint-disable-next-line no-unused-expressions
+      void btn.offsetWidth;
       btn.classList.add('btn-animate');
+
+      // cleanup on animation end
       const cleanup = () => {
         btn.classList.remove('btn-animate');
         btn.removeEventListener('animationend', cleanup);
       };
       btn.addEventListener('animationend', cleanup);
-      // Fallback removal after 250ms
-      setTimeout(() => btn.classList.remove('btn-animate'), 300);
+
+      // fallback removal in case animationend doesn't fire
+      setTimeout(() => btn.classList.remove('btn-animate'), 350);
     }
 
     function triggerDisplayPop() {
@@ -95,7 +106,7 @@
       displayEl.classList.remove('display-pop');
       // Force reflow to replay animation
       // eslint-disable-next-line no-unused-expressions
-      displayEl.offsetWidth;
+      void displayEl.offsetWidth;
       displayEl.classList.add('display-pop');
 
       const cleanup = () => {
