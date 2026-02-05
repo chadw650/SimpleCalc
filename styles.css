@@ -47,29 +47,27 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  padding:14px;
   color:var(--text);
   background-color: var(--bg);
   transition: background 240ms ease, color 240ms ease;
 }
 
-/* Make calculator a column and allow scrolling on very small screens */
+/* Compact calculator — no internal scrollbars */
 .calculator{
-  width:360px;
+  width:320px;            /* smaller width */
   max-width:100%;
-  max-height:94vh;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
   background:var(--calc-bg);
-  border-radius:16px;
-  padding:12px;
+  border-radius:12px;
+  padding:10px;
   box-shadow: 0 6px 18px rgba(16,24,40,0.12);
   backdrop-filter: blur(6px);
   border:1px solid rgba(255,255,255,0.04);
   transition: background 240ms ease, box-shadow 240ms ease;
-  overflow: auto; /* allow internal scroll if viewport is small */
-  padding-bottom:16px;
+  overflow: visible;      /* no scrollbars */
 }
 
 /* header with title and theme toggle */
@@ -77,23 +75,22 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:0;
-  gap:8px;
+  gap:6px;
   flex: 0 0 auto;
 }
 .calc-title{
   color:var(--header-text);
   font-weight:600;
-  font-size:0.95rem;
+  font-size:0.88rem;
   padding-left:4px;
 }
 .theme-toggle{
   background: var(--toggle-bg);
   border: none;
-  padding:8px 10px;
-  border-radius:10px;
+  padding:6px 8px;
+  border-radius:8px;
   cursor:pointer;
-  font-size:1rem;
+  font-size:0.95rem;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -101,32 +98,32 @@ body{
 }
 .theme-toggle:active{ transform: translateY(1px) }
 
-/* Display */
+/* Display (compact) */
 .display{
-  height:74px;
+  height:64px;
   background:var(--display);
   color:var(--display-color);
-  font-size:1.9rem;
+  font-size:1.7rem;
   border-radius:10px;
-  padding:14px;
+  padding:12px;
   display:flex;
   align-items:center;
   justify-content:flex-end;
   overflow:hidden;
   word-break:break-all;
-  box-shadow: inset 0 -6px 20px rgba(0,0,0,0.35);
-  margin-bottom:4px;
+  box-shadow: inset 0 -6px 18px rgba(0,0,0,0.32);
+  margin-bottom:2px;
   transition: background 240ms ease, color 240ms ease;
   flex: 0 0 auto;
 }
 
-/* Memory + function row (now below display) */
+/* Memory + function row (now below display) — smaller buttons */
 .funcs{
   display:flex;
   justify-content:space-between;
-  gap:8px;
+  gap:6px;
   margin-top:2px;
-  margin-bottom:8px;
+  margin-bottom:6px;
   flex: 0 0 auto;
 }
 .mem-group, .ops-group{
@@ -137,10 +134,10 @@ body{
   padding:6px 8px;
   font-size:0.78rem;
   border-radius:8px;
-  min-width:36px;
+  min-width:34px;
 }
 
-/* Buttons grid */
+/* Buttons grid (compact) */
 .buttons{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
@@ -152,14 +149,14 @@ body{
   background:var(--btn);
   border:none;
   border-radius:10px;
-  padding:12px; /* slightly reduced */
-  font-size:1.02rem;
+  padding:10px; /* reduced padding */
+  font-size:0.98rem;
   cursor:pointer;
   transition:transform .06s ease, box-shadow .06s ease, background .12s ease;
   box-shadow: var(--btn-shadow);
   user-select:none;
   color: inherit;
-  min-height:42px;
+  min-height:40px;
 }
 
 .btn:active{ transform: translateY(1px) }
@@ -184,17 +181,17 @@ body{
   100% { transform: scale(1); box-shadow: var(--btn-shadow); }
 }
 .btn-animate{
-  animation: btn-press 160ms cubic-bezier(.2,.8,.2,1);
+  animation: btn-press 140ms cubic-bezier(.2,.8,.2,1);
 }
 
 /* Display "pop" animation */
 @keyframes display-pop {
-  0%   { transform: translateY(6px) scale(0.98); opacity: 0; }
+  0%   { transform: translateY(5px) scale(0.98); opacity: 0; }
   60%  { transform: translateY(0) scale(1.03); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
 }
 .display-pop{
-  animation: display-pop 300ms cubic-bezier(.2,.8,.2,1);
+  animation: display-pop 260ms cubic-bezier(.2,.8,.2,1);
   transform-origin: 100% 50%;
 }
 
@@ -210,9 +207,10 @@ body{
   }
 }
 
-@media (max-width:420px){
+/* Smaller layout adjustments for narrow screens */
+@media (max-width:360px){
   .calculator{ width:300px; }
-  .display{ font-size:1.6rem; height:64px; padding:10px}
-  .btn{ padding:10px; font-size:0.95rem }
-  .btn.small{ padding:6px 6px; font-size:0.75rem; }
+  .display{ font-size:1.5rem; height:58px; padding:10px}
+  .btn{ padding:8px; font-size:0.92rem; min-height:36px }
+  .btn.small{ padding:6px 6px; font-size:0.72rem; min-width:30px; }
 }
