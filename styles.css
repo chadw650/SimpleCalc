@@ -1,216 +1,220 @@
-:root{
-  /* Light theme variables */
-  --page-bg: linear-gradient(135deg, #e6eefc 0%, #f8fafc 100%);
-  --bg: #f3f4f6;
-  --panel: #1f2937;
-  --btn: #e5e7eb;
-  --btn-op: #ffb86b;
-  --accent: #60a5fa;
-  --text: #111827;
-  --display: #0f172a;
-  --glass: rgba(255,255,255,0.06);
+/* ─── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Radii scale */
+  --radius-sm:  8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
 
-  --calc-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  --btn-shadow: 0 4px 8px rgba(15,23,42,0.06);
+  /* Light theme */
+  --page-bg:       linear-gradient(135deg, #e6eefc 0%, #f8fafc 100%);
+  --bg:            #f3f4f6;
+  --panel:         #1f2937;
+  --btn:           #e5e7eb;
+  --btn-op:        #ffb86b;       /* solid — used as background-color, not shorthand */
+  --btn-op-text:   #fff;
+  --accent:        #60a5fa;       /* solid */
+  --text:          #111827;
+  --display-bg:    #0f172a;
   --display-color: #e6eefc;
-  --header-text: #111827;
-  --toggle-bg: rgba(0,0,0,0.06);
+  --header-text:   #111827;
+  --toggle-bg:     rgba(0, 0, 0, 0.06);
+
+  --btn-shadow:    0 4px 8px rgba(15, 23, 42, 0.06);
 }
 
 /* Dark theme overrides */
-:root[data-theme="dark"]{
-  --page-bg: linear-gradient(135deg, #020617 0%, #071126 100%);
-  --bg: #0b1220;
-  --panel: #0f1724;
-  --btn: #111827;
-  --btn-op: linear-gradient(180deg,#ff9f3a,#ffb86b);
-  --accent: linear-gradient(180deg,#2b6cb0,#1e3a8a);
-  --text: #e6eefc;
-  --display: #020617;
-  --glass: rgba(255,255,255,0.02);
-
-  --calc-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  --btn-shadow: 0 4px 12px rgba(2,6,23,0.6);
+:root[data-theme="dark"] {
+  --page-bg:       linear-gradient(135deg, #020617 0%, #071126 100%);
+  --bg:            #0b1220;
+  --panel:         #0f1724;
+  --btn:           #111827;
+  --btn-op:        #e8900a;       /* darker amber — readable against dark bg */
+  --btn-op-text:   #fff;
+  --accent:        #1d4ed8;
+  --text:          #e6eefc;
+  --display-bg:    #020617;
   --display-color: #dbeafe;
-  --header-text: #e6eefc;
-  --toggle-bg: rgba(255,255,255,0.03);
+  --header-text:   #e6eefc;
+  --toggle-bg:     rgba(255, 255, 255, 0.04);
+
+  --btn-shadow:    0 4px 12px rgba(2, 6, 23, 0.6);
 }
 
-/* Base page layout and font */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  /* JetBrains Mono applied globally */
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+/* ─── Reset & base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
+               'Roboto Mono', monospace;
   background: var(--page-bg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px;
-  color:var(--text);
-  background-color: var(--bg);
-  transition: background 240ms ease, color 240ms ease;
+  background-color: var(--bg); /* fallback for browsers that drop the gradient */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  color: var(--text);
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
-/* Compact calculator — no internal scrollbars */
-.calculator{
-  width:320px;            /* smaller width */
-  max-width:100%;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  background:var(--calc-bg);
-  border-radius:12px;
-  padding:10px;
-  box-shadow: 0 6px 18px rgba(16,24,40,0.12);
+/* ─── Calculator shell ───────────────────────────────────────────────────────── */
+.calculator {
+  width: 320px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.12);
   backdrop-filter: blur(6px);
-  border:1px solid rgba(255,255,255,0.04);
-  transition: background 240ms ease, box-shadow 240ms ease;
-  overflow: visible;      /* no scrollbars */
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* header with title and theme toggle */
-.calc-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-  flex: 0 0 auto;
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
+.calc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
 }
-.calc-title{
-  color:var(--header-text);
-  font-weight:600;
-  font-size:0.88rem;
-  padding-left:4px;
+
+.calc-title {
+  color: var(--header-text);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding-left: 4px;
+  transition: color 240ms ease;
 }
-.theme-toggle{
-  background: var(--toggle-bg);
+
+.theme-toggle {
+  background-color: var(--toggle-bg);
   border: none;
-  padding:6px 8px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:0.95rem;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  transition: transform .08s ease, background .08s ease;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 80ms ease, background-color 80ms ease;
 }
-.theme-toggle:active{ transform: translateY(1px) }
+.theme-toggle:active { transform: translateY(1px); }
 
-/* Display (compact) */
-.display{
-  height:64px;
-  background:var(--display);
-  color:var(--display-color);
-  font-size:1.7rem;
-  border-radius:10px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  overflow:hidden;
-  word-break:break-all;
-  box-shadow: inset 0 -6px 18px rgba(0,0,0,0.32);
-  margin-bottom:2px;
-  transition: background 240ms ease, color 240ms ease;
-  flex: 0 0 auto;
-}
-
-/* Memory + function row (now below display) — smaller buttons */
-.funcs{
-  display:flex;
-  justify-content:space-between;
-  gap:6px;
-  margin-top:2px;
-  margin-bottom:6px;
-  flex: 0 0 auto;
-}
-.mem-group, .ops-group{
-  display:flex;
-  gap:6px;
-}
-.btn.small{
-  padding:6px 8px;
-  font-size:0.78rem;
-  border-radius:8px;
-  min-width:34px;
+/* ─── Display ────────────────────────────────────────────────────────────────── */
+.display {
+  height: 64px;
+  background-color: var(--display-bg);
+  color: var(--display-color);
+  font-size: 1.7rem;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;             /* clip long values; word-break not needed with overflow:hidden */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: inset 0 -6px 18px rgba(0, 0, 0, 0.32);
+  margin-bottom: 2px;
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
-/* Buttons grid (compact) */
-.buttons{
-  display:grid;
+/* ─── Memory / function row ──────────────────────────────────────────────────── */
+.funcs {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.mem-group,
+.ops-group {
+  display: flex;
+  gap: 6px;
+}
+
+.btn.small {
+  padding: 6px 8px;
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
+  min-width: 34px;
+}
+
+/* ─── Button grid ────────────────────────────────────────────────────────────── */
+.buttons {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap:8px;
-  flex: 1 1 auto;
+  gap: 8px;
 }
 
-.btn{
-  background:var(--btn);
-  border:none;
-  border-radius:10px;
-  padding:10px; /* reduced padding */
-  font-size:0.98rem;
-  cursor:pointer;
-  transition:transform .06s ease, box-shadow .06s ease, background .12s ease;
+/* ─── Base button ────────────────────────────────────────────────────────────── */
+.btn {
+  background-color: var(--btn);
+  color: var(--text);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  cursor: pointer;
+  user-select: none;
+  min-height: 40px;
   box-shadow: var(--btn-shadow);
-  user-select:none;
-  color: inherit;
-  min-height:40px;
+  transition: transform 60ms ease, box-shadow 60ms ease, background-color 120ms ease;
+}
+.btn:active { transform: translateY(1px); }
+
+/* Operator buttons */
+.btn.op {
+  background-color: var(--btn-op);
+  color: var(--btn-op-text);
+  font-weight: 600;
 }
 
-.btn:active{ transform: translateY(1px) }
-.btn.op{
-  background:var(--btn-op);
-  color:#fff;
-  font-weight:600;
-  background-image: none;
+/* Equals button */
+.btn.equals {
+  background-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
 }
-.btn.equals{
-  background:var(--accent);
-  color:#fff;
-  font-weight:600;
-  grid-row: span 1;
-}
-.btn.wide{ grid-column: span 2; }
 
-/* Button press animation (played via adding .btn-animate) */
+/* Wide (zero) button */
+.btn.wide { grid-column: span 2; }
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
 @keyframes btn-press {
-  0%   { transform: scale(1); box-shadow: var(--btn-shadow); }
-  50%  { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
-  100% { transform: scale(1); box-shadow: var(--btn-shadow); }
+  0%   { transform: scale(1);    box-shadow: var(--btn-shadow); }
+  50%  { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); }
+  100% { transform: scale(1);    box-shadow: var(--btn-shadow); }
 }
-.btn-animate{
-  animation: btn-press 140ms cubic-bezier(.2,.8,.2,1);
-}
+.btn-animate { animation: btn-press 140ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 
-/* Display "pop" animation */
 @keyframes display-pop {
   0%   { transform: translateY(5px) scale(0.98); opacity: 0; }
-  60%  { transform: translateY(0) scale(1.03); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+  60%  { transform: translateY(0)   scale(1.03); opacity: 1; }
+  100% { transform: scale(1);                    opacity: 1; }
 }
-.display-pop{
-  animation: display-pop 260ms cubic-bezier(.2,.8,.2,1);
+.display-pop {
+  animation: display-pop 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-origin: 100% 50%;
 }
 
-/* Respect user reduced motion preferences */
+/* ─── Accessibility: reduced motion ──────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .btn-animate,
-  .display-pop,
-  .calculator,
-  body,
-  .display {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
 }
 
-/* Smaller layout adjustments for narrow screens */
-@media (max-width:360px){
-  .calculator{ width:300px; }
-  .display{ font-size:1.5rem; height:58px; padding:10px}
-  .btn{ padding:8px; font-size:0.92rem; min-height:36px }
-  .btn.small{ padding:6px 6px; font-size:0.72rem; min-width:30px; }
+/* ─── Narrow screens ─────────────────────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .calculator { width: 300px; }
+  .display    { font-size: 1.5rem; height: 58px; padding: 10px; }
+  .btn        { padding: 8px; font-size: 0.92rem; min-height: 36px; }
+  .btn.small  { padding: 6px; font-size: 0.72rem; min-width: 30px; }
 }
