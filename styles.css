@@ -9,6 +9,8 @@
   --page-bg-a:         #667eea;
   --page-bg-b:         #764ba2;
   --page-bg-c:         #f093fb;
+  --aurora-blob-1:     #a855f7;
+  --aurora-blob-2:     #3b82f6;
   --calc-surface:      rgba(255, 255, 255, 0.22);
   --calc-border:       rgba(255, 255, 255, 0.4);
   --calc-shadow:       0 32px 64px rgba(80, 40, 130, 0.35), 0 8px 16px rgba(80, 40, 130, 0.2);
@@ -43,6 +45,8 @@
   --page-bg-a:         #0f0c29;
   --page-bg-b:         #302b63;
   --page-bg-c:         #24243e;
+  --aurora-blob-1:     #7c3aed;
+  --aurora-blob-2:     #1d4ed8;
   --calc-surface:      rgba(18, 18, 48, 0.82);
   --calc-border:       rgba(120, 120, 255, 0.12);
   --calc-shadow:       0 32px 64px rgba(0, 0, 0, 0.7), 0 8px 16px rgba(0, 0, 0, 0.5);
@@ -104,14 +108,14 @@ body::after {
 body::before {
   width: 560px;
   height: 560px;
-  background: radial-gradient(circle, #a855f7, transparent 70%);
+  background: radial-gradient(circle, var(--aurora-blob-1), transparent 70%);
   top: -180px;
   right: -80px;
 }
 body::after {
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, #3b82f6, transparent 70%);
+  background: radial-gradient(circle, var(--aurora-blob-2), transparent 70%);
   bottom: -140px;
   left: -80px;
   animation-direction: alternate-reverse;

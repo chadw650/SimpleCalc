@@ -216,7 +216,7 @@
       ripple.style.top  = y + 'px';
       btn.appendChild(ripple);
       ripple.addEventListener('animationend', () => ripple.remove());
-      setTimeout(() => ripple.remove(), 600);
+      setTimeout(() => ripple.remove(), 500);
     }
 
     /* -----------------------
