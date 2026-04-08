@@ -2,9 +2,11 @@
 (function () {
   // Run after DOM is ready so elements always exist
   document.addEventListener('DOMContentLoaded', () => {
-    const displayEl = document.getElementById('display');
+    const displayEl = document.getElementById('display-value');
+    const exprEl    = document.getElementById('display-expr');
     let buffer = ''; // expression buffer
     let prevDisplayText = displayEl.textContent || '';
+    let justEvaluated = false; // true right after pressing =
     const MEMORY_KEY = 'calculator-memory-v1';
 
     /* -----------------------
@@ -58,11 +60,17 @@
       } else {
         buffer += char;
       }
+      if (justEvaluated) {
+        exprEl.textContent = '';
+        justEvaluated = false;
+      }
       updateDisplay();
     }
 
     function clearAll() {
       buffer = '';
+      exprEl.textContent = '';
+      justEvaluated = false;
       updateDisplay();
     }
 
@@ -87,6 +95,8 @@
       try {
         // Evaluate in isolated scope
         const result = new Function('return ' + pre)();
+        // Show what was evaluated in the expression line
+        exprEl.textContent = raw + ' =';
         if (typeof result === 'number' && !Number.isInteger(result)) {
           buffer = parseFloat(result.toPrecision(12)).toString();
         } else {
@@ -95,6 +105,7 @@
       } catch (e) {
         buffer = 'Error';
       }
+      justEvaluated = true;
       updateDisplay();
     }
 
@@ -190,6 +201,25 @@
     }
 
     /* -----------------------
+       Ripple effect
+       ----------------------- */
+    function createRipple(btn, e) {
+      if (prefersReducedMotion()) return;
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = (e ? e.clientX - rect.left : rect.width / 2) - size / 2;
+      const y = (e ? e.clientY - rect.top  : rect.height / 2) - size / 2;
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.width  = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top  = y + 'px';
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+      setTimeout(() => ripple.remove(), 500);
+    }
+
+    /* -----------------------
        Animations
        ----------------------- */
     function triggerButtonAnimation(btn) {
@@ -225,8 +255,9 @@
        Button wiring (clicks)
        ----------------------- */
     document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
         triggerButtonAnimation(btn);
+        createRipple(btn, e);
 
         const val = btn.getAttribute('data-value');
         const action = btn.getAttribute('data-action');
