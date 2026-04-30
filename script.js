@@ -344,15 +344,17 @@
       if (theme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
         if (themeToggleBtn) {
-          themeToggleBtn.textContent = '☀️';
+          themeToggleBtn.textContent = '○';
           themeToggleBtn.setAttribute('aria-pressed', 'true');
+          themeToggleBtn.setAttribute('aria-label', 'Switch to light mode');
           themeToggleBtn.title = 'Switch to light mode';
         }
       } else {
         document.documentElement.removeAttribute('data-theme');
         if (themeToggleBtn) {
-          themeToggleBtn.textContent = '🌙';
+          themeToggleBtn.textContent = '●';
           themeToggleBtn.setAttribute('aria-pressed', 'false');
+          themeToggleBtn.setAttribute('aria-label', 'Switch to dark mode');
           themeToggleBtn.title = 'Switch to dark mode';
         }
       }
